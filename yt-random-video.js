@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         YouTube Random Video Button
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.0.1
 // @description  Adds a "Random Video" button to YouTube to watch a random video.
 // @author       Mitul Patel
 // @match        https://www.youtube.com/*
@@ -12,11 +12,22 @@
   "use strict";
 
   function getRandomQuery() {
-    const characters = "abcdefghijklmnopqrstuvwxyz0123456789";
+    const characters =
+      "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    const length = (crypto.getRandomValues(new Uint8Array(1))[0] % 5) + 3;
+    const randomBytes = new Uint8Array(length);
+    crypto.getRandomValues(randomBytes);
+
     let query = "";
-    for (let i = 0; i < 5; i++) {
-      query += characters.charAt(Math.floor(Math.random() * characters.length));
+    for (let i = 0; i < length; i++) {
+      let randomValue;
+      do {
+        randomValue = randomBytes[i];
+      } while (randomValue >= 256 - (256 % characters.length));
+
+      query += characters[randomValue % characters.length];
     }
+
     return query;
   }
 
