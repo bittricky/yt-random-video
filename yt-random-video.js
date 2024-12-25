@@ -31,24 +31,62 @@
     return query;
   }
 
-  function goToRandomVideo() {
-    const query = getRandomQuery();
-    fetch(`https://www.youtube.com/results?search_query=${query}`)
-      .then((response) => response.text())
-      .then((html) => {
-        const videoIdMatch = html.match(/"videoId":"(.*?)"/);
-        if (videoIdMatch && videoIdMatch[1]) {
-          window.location.href = `https://www.youtube.com/watch?v=${videoIdMatch[1]}`;
-        } else {
-          alert("No random video found. Try again!");
-        }
-      })
-      .catch((err) => {
-        console.error("Error fetching random video:", err);
-        alert(
-          "Failed to fetch a random video. Check your connection or try again."
-        );
-      });
+  async function goToRandomVideo() {
+    const button = document.querySelector("#random-video-btn");
+    if (button) {
+      button.disabled = true;
+      button.textContent = "Loading...";
+    }
+
+    try {
+      const queries = Array.from({ length: 3 }, getRandomQuery);
+      const allVideoIds = new Set();
+
+      await Promise.all(
+        queries.map(async (query) => {
+          try {
+            const response = await fetch(
+              `https://www.youtube.com/results?search_query=${encodeURIComponent(
+                query
+              )}`
+            );
+            if (!response.ok)
+              throw new Error(`HTTP error! status: ${response.status}`);
+
+            const html = await response.text();
+            const videoIdMatch = html.match(/"videoId":"(.*?)"/);
+            if (videoIdMatch && videoIdMatch[1]) {
+              allVideoIds.add(videoIdMatch[1]);
+            }
+          } catch (err) {
+            console.error(`Error fetching query "${query}":`, err);
+          }
+        })
+      );
+
+      if (allVideoIds.size === 0) {
+        throw new Error("No videos found across any queries");
+      }
+
+      const videoIds = Array.from(allVideoIds);
+      const randomBytes = new Uint8Array(1);
+      let selectedIndex;
+
+      do {
+        crypto.getRandomValues(randomBytes);
+        selectedIndex = randomBytes[0];
+      } while (selectedIndex >= 256 - (256 % videoIds.length));
+
+      selectedIndex = selectedIndex % videoIds.length;
+      window.location.href = `https://www.youtube.com/watch?v=${videoIds[selectedIndex]}`;
+    } catch (err) {
+      console.error("Error fetching random videos:", err);
+      alert("Failed to fetch random videos. Please try again in a moment.");
+      if (button) {
+        button.disabled = false;
+        button.textContent = "Random Video";
+      }
+    }
   }
 
   function addRandomButton() {
