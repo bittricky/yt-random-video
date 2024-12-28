@@ -29,7 +29,7 @@ Before you can use the script, ensure the following:
 
 **Add the Script Code**:
 
-- Copy the YouTube Enhancer script code provided below and paste it into the TamperMonkey script editor:
+- Copy the YouTube Random Video script code provided below and paste it into the TamperMonkey script editor:
 
 **Save the Script**:
 
