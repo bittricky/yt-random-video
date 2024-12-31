@@ -54,3 +54,10 @@ Before you can use the script, ensure the following:
 Enjoy exploring random videos with the click of a button! 🎉
 
 @Author: Mitul Patel
+
+---
+
+This is an exercise to learn more about:
+
+- [Lumboro Algorithm](https://github.com/jlumbroso/affirmative-sampling)
+- [Rejection Sampling](https://en.wikipedia.org/wiki/Rejection_sampling)
