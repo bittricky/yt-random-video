@@ -1,6 +1,6 @@
 # YouTube Random Video Button
 
-> Do you ever feel like youtube knows you too well? This script lets you explore random videos with a single click.
+> Do you ever feel like youtube knows you too well? This script lets you explore random videos with a single click. 🎲
 
 A Tampermonkey userscript that adds a "Random Video" button to YouTube's navigation bar, allowing users to discover random YouTube videos.
 
