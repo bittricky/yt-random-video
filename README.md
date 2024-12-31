@@ -59,5 +59,5 @@ Enjoy exploring random videos with the click of a button! 🎉
 
 This is an exercise to learn more about:
 
-- [Lumboro Algorithm](https://github.com/jlumbroso/affirmative-sampling)
+- [Lumbroso Algorithm](https://github.com/jlumbroso/affirmative-sampling)
 - [Rejection Sampling](https://en.wikipedia.org/wiki/Rejection_sampling)
